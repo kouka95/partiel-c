@@ -1,0 +1,25 @@
+# Fenetre
+fenetre_largeur = 900
+fenetre_hauteur = 420
+
+# Temps
+dt = 0.016
+
+# Joueur
+sol_y            = 330
+araignee_largeur = 50
+araignee_hauteur = 45
+
+# Physique
+gravite        = 1400
+force_saut     = 580
+vitesse_depart = 220
+vitesse_max    = 700
+acceleration   = 12
+
+# Obstacles
+intervalle_min = 35
+score_oiseaux  = 1000
+
+# Collision (marge en pixels, plus grand = hitbox plus petite)
+collision_marge = 5
