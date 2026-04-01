@@ -1,20 +1,28 @@
 CC     = gcc
-CFLAGS = -Wall -Wextra -std=c99 -g -Iinclude
+CFLAGS = -O2 -Wall -Wextra -ansi -Iinclude/ -IC:/msys64/ucrt64/include/SDL
+CLIBS  = -lSDL_gfx -lSDLmain -lSDL -lm -mwindows
 
-SDL_INC = -IC:/msys64/ucrt64/include/SDL2
-SDL_LIB = -LC:/msys64/ucrt64/lib -lSDL2_ttf -lSDL2main -lSDL2
-LIBS    = -lm $(SDL_LIB)
+EXE  = jeu.exe
+SRC  = src/
+INC  = include/
 
-SRC    = src/main.c src/ui.c src/physics.c src/config.c
-TARGET = jeu.exe
+FILEO := config.o physics.o ui.o game.o main.o
 
-all: $(TARGET)
+$(EXE) : $(FILEO)
+	$(CC) $(CFLAGS) -o $@ $^ $(CLIBS)
+	rm -f $(FILEO)
 
-$(TARGET): $(SRC)
-	$(CC) $(CFLAGS) $(SDL_INC) -o $@ $^ $(LIBS)
-	@echo "OK : ./$(TARGET)"
+main.o : $(SRC)main.c $(INC)game.h
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-clean:
-	rm -f $(TARGET)
+game.o : $(SRC)game.c $(INC)game.h $(INC)types.h $(INC)config.h $(INC)physics.h $(INC)ui.h
+	$(CC) $(CFLAGS) -o $@ -c $<
 
-.PHONY: all clean
+%.o : $(SRC)%.c $(INC)%.h
+	$(CC) $(CFLAGS) -o $@ -c $<
+
+clean :
+	rm -f $(FILEO)
+	rm -f $(EXE)
+
+.PHONY: clean

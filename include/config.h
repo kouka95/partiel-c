@@ -1,32 +1,17 @@
-#ifndef CONFIG_H
-#define CONFIG_H
+#ifndef DEF_HEADER_CONFIG
+#define DEF_HEADER_CONFIG
 
 typedef struct Config Config;
 struct Config {
-    /* Fenetre */
     int fenetre_largeur;
     int fenetre_hauteur;
-
-    /* Temps */
     float dt;
-
-    /* Joueur */
     float sol_y;
-    float araignee_largeur;
-    float araignee_hauteur;
-
-    /* Physique */
-    float gravite;
-    float force_saut;
-    float vitesse_depart;
-    float vitesse_max;
-    float acceleration;
-
-    /* Obstacles */
+    float araignee_largeur, araignee_hauteur;
+    float gravite, force_saut;
+    float vitesse_depart, vitesse_max, acceleration;
     int intervalle_min;
     float score_oiseaux;
-
-    /* Collision */
     float collision_marge;
 };
 

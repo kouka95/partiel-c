@@ -1,44 +1,38 @@
-#include <stdlib.h>
 #include "physics.h"
-static void spawner_obstacle(Jeu *jeu, const Config *cfg);
+#include <stdlib.h>
 
+static void spawner_obstacle(Jeu *jeu, const Config *cfg);
 void Physics_step(Jeu *jeu, const Config *cfg) {
     int i;
 
-    /* Gravite */
     jeu->araignee.vy += cfg->gravite * cfg->dt;
     jeu->araignee.y += jeu->araignee.vy * cfg->dt;
-
-    /* Sol */
     if (jeu->araignee.y >= jeu->sol_y) {
         jeu->araignee.y = jeu->sol_y;
         jeu->araignee.vy = 0.0f;
         jeu->araignee.au_sol = 1;
     }
 
-    /* Score et acceleration */
     jeu->score += jeu->vitesse * cfg->dt;
     jeu->vitesse += cfg->acceleration * cfg->dt;
-    if (jeu->vitesse > cfg->vitesse_max){
+    if (jeu->vitesse > cfg->vitesse_max) {
         jeu->vitesse = cfg->vitesse_max;
     }
 
-    /* Deplacer obstacles */
     for (i = 0; i < MAX_OBSTACLES; i++) {
         Obstacle *o = &jeu->obstacles[i];
         if (!o->actif) continue;
         o->x -= jeu->vitesse * cfg->dt;
-        if (o->x + o->largeur < 0.0f){
+        if (o->x + o->largeur < 0.0f) {
             o->actif = 0;
         }
     }
 
-    /* Spawner */
     jeu->timer_obstacle--;
     if (jeu->timer_obstacle <= 0) {
         spawner_obstacle(jeu, cfg);
         jeu->timer_obstacle = (int)(14000.0f / jeu->vitesse);
-        if (jeu->timer_obstacle < cfg->intervalle_min){
+        if (jeu->timer_obstacle < cfg->intervalle_min) {
             jeu->timer_obstacle = cfg->intervalle_min;
         }
     }
